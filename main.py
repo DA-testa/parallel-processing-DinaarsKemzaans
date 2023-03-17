@@ -1,18 +1,26 @@
 #Dinārs Kemzāns 17. grupa 221RDB321
 
-import heapq
 def parallel_processing(n, m, data):
-    output = []
-    maxval =[(0,i) for i in range(n)]
-    for x in data:
-        beigsana, numurs = heapq.heappop(maxval)
-        output.append((numurs, beigsana))
+    resultats = []
+    laiks = 0
+    uzdevumi = list(range(n))
+    job = {}
+    indeks = 0
 
-        beigsana += x
-        heapq.heappush(maxval, (beigsana, numurs))
+    while indeks < int(len(data)):
+        for tekosais, beigas in job.items():
+            if beigas == laiks:
+                uzdevumi.append(tekosais)
+        
+        while uzdevumi and indeks < m:
+            tekosais = uzdevumi.pop(0)
+            resultats.append([tekosais, laiks])
+            job[tekosais] = laiks + data[indeks]
+            indeks += 1
 
+        laiks += 1
 
-    return output
+    return resultats
 
 def main():
     data = list(map(int, input().split()))
