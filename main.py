@@ -1,31 +1,38 @@
-# python3
+#Dinārs Kemzāns 17. grupa 221RDB321
 
 def parallel_processing(n, m, data):
-    output = []
-    # TODO: write the function for simulating parallel tasks, 
-    # create the output pairs
+    resultats = []
+    laiks = 0
+    uzdevumi = list(range(n))
+    job = {}
+    indeks = 0
 
-    return output
+    while indeks < int(len(data)):
+        for tekosais, beigas in job.items():
+            if beigas == laiks:
+                uzdevumi.append(tekosais)
+        
+        while uzdevumi and indeks < m:
+            tekosais = uzdevumi.pop(0)
+            resultats.append([tekosais, laiks])
+            job[tekosais] = laiks + data[indeks]
+            indeks += 1
+
+        laiks += 1
+
+    return resultats
 
 def main():
-    # TODO: create input from keyboard
-    # input consists of two lines
-    # first line - n and m
-    # n - thread count 
-    # m - job count
-    n = 0
-    m = 0
-
-    # second line - data 
-    # data - contains m integers t(i) - the times in seconds it takes any thread to process i-th job
-    data = []
-
+    data = list(map(int, input().split()))
+    n = data[0]
+    m = data[1]
+    data = list(map(int, input().split()))
+    assert len(data) == m
     # TODO: create the function
     result = parallel_processing(n,m,data)
     
-    # TODO: print out the results, each pair in it's own line
-
-
+    for x in range(len(result)):
+        print(str(result[x][0]) + " " + str(result[x][1]))
 
 if __name__ == "__main__":
     main()
